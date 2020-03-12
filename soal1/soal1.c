@@ -11,22 +11,22 @@
 #include <time.h>
 
 int main(int argc, char *argv[]) {
-  int cek = 0;
+  int cekd = 0 , cekm = 0 , cekj = 0;
   char cekdetik[5]="*";
   for(int i = 60 ; i >= 0 ; --i ){
-    if(strcmp(argv[1], cekdetik) == 0){
-      cek = 1;
-      break;
+    if(strcmp(argv[1], cekdetik) == 0 && cekd == 0){
+      cekd = 1;
+      // break;
     }
 
-    if(strcmp(argv[1], cekdetik) == 0){
-      cek = 1;
-      break;
+    if(strcmp(argv[1], cekdetik) == 0 && cekm == 0){
+      cekm = 1;
+      // break;
     }
 
-    if(strcmp(argv[3], cekdetik) == 0 && i < 24){
-      cek = 1;
-      break;
+    if(strcmp(argv[3], cekdetik) == 0 && i < 24 && cekj == 0){
+      cekj = 1;
+      // break;
     }
     sprintf( cekdetik, "%d", i );
   }
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
 
       child_id = fork();
       
-      if (child_id < 0 || cek == 0) {
+      if (child_id < 0 || cekd == 0 || cekm == 0|| cekj == 0) {
         printf("error\n");
         exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
       }
