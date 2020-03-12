@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
   close(STDERR_FILENO);
 
   while (1) {
-      char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/",temp2[100];
+      char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/";
       pid_t child_id;
         time_t rawtime;
         struct tm * timeinfo;
@@ -77,10 +77,10 @@ int main(int argc, char *argv[]) {
       sprintf( menit, "%d", timeinfo->tm_min );
       sprintf( jam, "%d", timeinfo->tm_hour );
       // detik = (char*)&timeinfo->tm_sec;
-      strcpy(temp2,temp);
-      strcat(temp2,detik);
-      strcat(temp2,menit);
-      strcat(temp2,jam);
+      // strcpy(argv[4],temp);
+      // strcat(argv[4],detik);
+      // strcat(argv[4],menit);
+      // strcat(argv[4],jam);
 
       child_id = fork();
       
@@ -90,64 +90,64 @@ int main(int argc, char *argv[]) {
       }
 
         // if (child_id == 0 ) {
-        //   char *argv2[] = {"touch",temp2, NULL};
-        //   execv("/usr/bin/touch", argv2);
+        //   char *argv2[] = {"bash",argv[4], NULL};
+        //   execv("/bin/bash", argv2);
         // }
 
 
       if(strcmp(argv[1], detik) == 0 && strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
       else if(strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0 && strcmp(argv[3], "*") == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
       else if(strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0){
         if(strcmp(argv[3], jam) == 0){
           if (child_id == 0 ) {
-            char *argv2[] = {"touch",temp2, NULL};
-            execv("/usr/bin/touch", argv2);
+            char *argv2[] = {"bash",argv[4], NULL};
+            execv("/bin/bash", argv2);
           }
         }
       }
       else if(strcmp(argv[1], "*") == 0 && strcmp(argv[3], "*") == 0)
       if(strcmp(argv[2], menit) == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
       else if(strcmp(argv[3], "*") == 0 && strcmp(argv[2], "*") == 0)
       if(strcmp(argv[1], detik) == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
       else if(strcmp(argv[1], "*") == 0)
       if(strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
       else if(strcmp(argv[2], "*") == 0)
       if(strcmp(argv[1], detik) == 0 && strcmp(argv[3], jam) == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
       else if(strcmp(argv[3], "*") == 0)
       if(strcmp(argv[2], menit) == 0 && strcmp(argv[1], detik) == 0){
         if (child_id == 0 ) {
-          char *argv2[] = {"touch",temp2, NULL};
-          execv("/usr/bin/touch", argv2);
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
         }
       }
     sleep(1);
