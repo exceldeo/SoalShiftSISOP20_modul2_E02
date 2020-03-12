@@ -19,12 +19,12 @@ int main(int argc, char *argv[]) {
       // break;
     }
 
-    if(strcmp(argv[1], cekdetik) == 0 && cekm == 0){
+    if(strcmp(argv[2], cekdetik) == 0 && cekm == 0){
       cekm = 1;
       // break;
     }
 
-    if(strcmp(argv[3], cekdetik) == 0 && i < 24 && cekj == 0){
+    if(strcmp(argv[3], cekdetik) == 0 && (i < 24 || i == 60) && cekj == 0){
       cekj = 1;
       // break;
     }
@@ -85,71 +85,51 @@ int main(int argc, char *argv[]) {
       child_id = fork();
       
       if (child_id < 0 || cekd == 0 || cekm == 0|| cekj == 0) {
+        char aaa[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/error.txt";
+        char *argv2[] = {"touch",aaa, NULL};
+        execv("/usr/bin/touch", argv2);
         printf("error\n");
         exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
       }
 
-        // if (child_id == 0 ) {
-        //   char *argv2[] = {"bash",argv[4], NULL};
-        //   execv("/bin/bash", argv2);
-        // }
+      // if (child_id == 0) {
+      //   char *argv2[] = {"bash",argv[4], NULL};
+      //   execv("/bin/bash", argv2);
+      // }
 
+      if (child_id == 0 && (strcmp(argv[1], detik) == 0 && strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0)) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0 && strcmp(argv[3], "*") == 0) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && (strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0) && strcmp(argv[3], jam) == 0) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && (strcmp(argv[1], "*") == 0 && strcmp(argv[3], "*") == 0) && strcmp(argv[2], menit) == 0) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && (strcmp(argv[3], "*") == 0 && strcmp(argv[2], "*") == 0) && strcmp(argv[1], detik) == 0 ) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && (strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0) && strcmp(argv[1], "*") == 0 ) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && (strcmp(argv[1], detik) == 0 && strcmp(argv[3], jam) == 0) && strcmp(argv[2], "*") == 0) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
+      else if (child_id == 0 && (strcmp(argv[2], menit) == 0 && strcmp(argv[1], detik) == 0) && strcmp(argv[3], "*") == 0) {
+        char *argv2[] = {"bash",argv[4], NULL};
+        execv("/bin/bash", argv2);
+      }
 
-      if(strcmp(argv[1], detik) == 0 && strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
-      else if(strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0 && strcmp(argv[3], "*") == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
-      else if(strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0){
-        if(strcmp(argv[3], jam) == 0){
-          if (child_id == 0 ) {
-            char *argv2[] = {"bash",argv[4], NULL};
-            execv("/bin/bash", argv2);
-          }
-        }
-      }
-      else if(strcmp(argv[1], "*") == 0 && strcmp(argv[3], "*") == 0)
-      if(strcmp(argv[2], menit) == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
-      else if(strcmp(argv[3], "*") == 0 && strcmp(argv[2], "*") == 0)
-      if(strcmp(argv[1], detik) == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
-      else if(strcmp(argv[1], "*") == 0)
-      if(strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
-      else if(strcmp(argv[2], "*") == 0)
-      if(strcmp(argv[1], detik) == 0 && strcmp(argv[3], jam) == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
-      else if(strcmp(argv[3], "*") == 0)
-      if(strcmp(argv[2], menit) == 0 && strcmp(argv[1], detik) == 0){
-        if (child_id == 0 ) {
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        }
-      }
     sleep(1);
   }
 }
