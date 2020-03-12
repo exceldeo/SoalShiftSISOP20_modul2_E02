@@ -6,19 +6,9 @@
 #include <dirent.h>
 #include <string.h>
 
-void fungsimkdir1(){
-    char *argv1[] = {"mkdir", "-p", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie", NULL};
-    execv("/bin/mkdir", argv1);
-}
-
-void fungsimkdir2(){
-    char *argv2[] = {"mkdir", "-p", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/sedaap", NULL};
-    execv("/bin/mkdir", argv2);
-}
-
 int main() {
-  pid_t child_id,child_id2;
-  int status,status2;
+  pid_t child_id;
+  int status;
 
   child_id = fork();
   
@@ -27,92 +17,189 @@ int main() {
   }
 
   if (child_id == 0) {
-    // this is child
-    
-    char *argv1[] = {"mkdir", "-p", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie", NULL};
-    execv("/bin/mkdir", argv1);
-    // printf("apalo\n");
-    sleep(5);
-    // printf("apalo2\n");
-    char *argv2[] = {"mkdir", "-p", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/sedaap", NULL};
-    execv("/bin/mkdir", argv2);
-
+    char *argv[] = {"mkdir", "-p", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie", NULL};
+    execv("/bin/mkdir", argv);
   } else {
     // this is parent
     while ((wait(&status)) > 0);
-    child_id2 = fork();
-  
-    if (child_id2 < 0) {
-        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-    }
 
-    if (child_id2 == 0) {
-      char *argv3[] = {"unzip", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg.zip", NULL};
-      execv("/usr/bin/unzip", argv3);
-    }
-    else {
-    // this is parent
-      while ((wait(&status2)) > 0);
+        pid_t child_id2;
+        int status2;
 
-      DIR *folder;
-      struct dirent *entry;
-      int files = 0;
-      char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg/" , dir2[100], dir3[100]="/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/indomie/";
+        child_id2 = fork();
+        
+        if (child_id2 < 0) {
+            exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+        }
 
+        if (child_id2 == 0) {
+            sleep(5);
+            char *argv[] = {"mkdir", "-p", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/sedaap", NULL};
+            execv("/bin/mkdir", argv);
+        } else {
+            // this is parent
+            while ((wait(&status2)) > 0);
+            
+                pid_t child_id3;
+                int status3;
 
-      folder = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg");
-      if(folder == NULL)
-      {
-          perror("Unable to read directory");
-          return(1);
-      }
-      
-      while( (entry=readdir(folder)) )
-      {
-          files++;
-          printf("File %3d: %d name : %s\n",
-                  files,
-                  entry->d_type,entry->d_name
-                );
-          if (!strcmp (entry->d_name, "."))
-              continue;
-          if (!strcmp (entry->d_name, ".."))    
-              continue;
-          if(entry->d_type == 8){
-              strcpy(dir2,dir);
-              strcat(dir2,entry->d_name);
-              char *arg4v[] = {"mv",dir2,"/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/sedaap/", NULL};
-              execv("/bin/mv", arg4v);
-          }
-          if(entry->d_type == 4 ){
-              strcpy(dir2,dir);
-              strcat(dir2,entry->d_name);
-              char *argv5[] = {"mv",dir2,"/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie/", NULL};
-              execv("/bin/mv", argv5);
-              
-              strcpy(dir2,dir3);
-              strcat(dir2,entry->d_name);
-              strcat(dir2,"/coba1.txt");
+                child_id3 = fork();
+                
+                if (child_id3 < 0) {
+                    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                }
 
-              char *argv6[] = {"mv",dir2,"/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie/", NULL};
-              execv("/bin/mv", argv6);
+                if (child_id3 == 0) {
+                    // sleep(5);
+                    char *argv[] = {"unzip", "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg.zip", NULL};
+                    execv("/usr/bin/unzip", argv);
+                } else {
+                    // this is parent
+                    while ((wait(&status3)) > 0);
+                        
+                        pid_t child_id4;
+                        int status4;
 
-              sleep(3);
+                        child_id4 = fork();
+                        
+                        if (child_id4 < 0) {
+                            exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                        }
 
-              strcpy(dir2,dir3);
-              strcat(dir2,entry->d_name);
-              strcat(dir2,"/coba2.txt");
+                        if (child_id4 == 0) {
+                            
+                            DIR *folder;
+                            struct dirent *entry;
+                            int files = 0;
+                            char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg/" , dir2[100], dir3[100]="/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/indomie/";
 
-              char *argv[] = {"mv",dir2,"/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie/", NULL};
-              execv("/bin/mv", argv);
+                            folder = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg");
+                            if(folder == NULL)
+                            {
+                                perror("Unable to read directory");
+                                return(1);
+                            }
+                            
+                            while( (entry=readdir(folder)) )
+                            {
+                                files++;
+                                printf("File %3d: %d name : %s\n",
+                                        files,
+                                        entry->d_type,entry->d_name
+                                        );
+                                if (!strcmp (entry->d_name, "."))
+                                    continue;
+                                if (!strcmp (entry->d_name, ".."))    
+                                    continue;
 
-          }
-      }
+                                strcpy(dir2,dir);
+                                strcat(dir2,entry->d_name);
+                                pid_t child_id5;
 
-      closedir(folder);
+                                child_id5 = fork();
+                                
+                                if (child_id5 < 0) {
+                                    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                                }
 
-      printf("cobacoba\n");
-    }
+                                if (child_id5 == 0 && entry->d_type == 8) {
+                                    char *arg4v[] = {"mv",dir2,"/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/sedaap/", NULL};
+                                    execv("/bin/mv", arg4v);
+                                }
 
+                                if (child_id5 == 0 && entry->d_type == 4) {
+                                    char *argv5[] = {"mv",dir2,"/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie/", NULL};
+                                    execv("/bin/mv", argv5);
+                                }
+                            }
+                        } else {
+                            // this is parent
+                            while ((wait(&status4)) > 0);
+
+                              pid_t child_id8;
+
+                              child_id8 = fork();
+                              
+                              if (child_id8 < 0) {
+                                exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                              }
+
+                              if (child_id8 == 0) {
+                                DIR *folder;
+                                struct dirent *entry;
+                                int files = 0;
+                                char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie/" , dir2[100];
+
+                                folder = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/indomie");
+                                if(folder == NULL)
+                                {
+                                    perror("Unable to read directory");
+                                    return(1);
+                                }
+                                
+                                while( (entry=readdir(folder)) )
+                                {
+                                    files++;
+                                    printf("File %3d: %d name111 : %s\n",
+                                            files,
+                                            entry->d_type,entry->d_name
+                                            );
+                                    if (!strcmp (entry->d_name, "."))
+                                        continue;
+                                    if (!strcmp (entry->d_name, ".."))    
+                                        continue;
+                                
+                                    // atas
+                                    pid_t child_id6;
+                                    int status6;
+
+                                    child_id6 = fork();
+                                    
+                                    if (child_id6 < 0) {
+                                        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                                    }
+
+                                    if (child_id6 == 0) {
+                                    // printf("chillll1 %d\n",iter);
+                                        strcpy(dir2,dir);
+                                        strcat(dir2,entry->d_name);
+                                        strcat(dir2,"/coba1.txt");
+                                        printf("11 %s\n",dir2);
+                                        char *argv6[] = {"touch",dir2, NULL};
+                                        execv("/usr/bin/touch", argv6);  
+                                    }
+
+                                    else {
+                                      while ((wait(&status6)) > 0);
+
+                                      pid_t child_id7;
+
+                                      child_id7 = fork();
+                                      
+                                      if (child_id7 < 0) {
+                                        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                                      }
+
+                                      if (child_id7 == 0) {
+                                        sleep(3);
+                                        strcpy(dir2,dir);
+                                        strcat(dir2,entry->d_name);
+                                        strcat(dir2,"/coba2.txt");
+                                        printf("22 %s\n",dir2);
+                                        char *argv7[] = {"touch",dir2, NULL};
+                                        execv("/usr/bin/touch", argv7);
+                                      }
+
+                                    }
+                                    // bawah
+
+                                }
+                              }
+                        }
+
+                }
+
+        }
+           
   }
 }
