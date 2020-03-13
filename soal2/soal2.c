@@ -13,7 +13,16 @@
 #include <string.h>
 #include <wait.h>
 
-int main() {
+int main(int argc3, char *argv3[]) {
+  int mode = 0;
+  if (argc3 == 2 && (strcmp(argv3[1],"-a")) == 0) {
+      char *argv[] = {"killall", "-9", "soal2", NULL};
+      execv("/usr/bin/killall", argv);
+  }
+  else {
+  if (argc3 == 2 &&(strcmp(argv3[1],"-b")) == 0)
+  mode = 2;
+
   pid_t pid, sid;        // Variabel untuk menyimpan PID
 
   pid = fork();     // Menyimpan PID dari Child Process
@@ -61,7 +70,7 @@ int main() {
     
     strcat(temp,output);
     
-    if(iterator%6==0){
+    if(iterator%6==0 && mode != 2){
         pid_t child_id;
         int status;
 
@@ -102,7 +111,7 @@ int main() {
         // }
     }
 
-    if(iterator % 21 == 0 || iterator == 1 ){
+    if(iterator % 21 == 0 || iterator == 1){
         char tempat2[100]="/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/";
         if(iterator %21 == 0 && iterator != 0){
           pid_t child_id3;
@@ -140,6 +149,22 @@ int main() {
               if (child_id4 == 0) {
                   char *argv[] = {"rm", "-r",tempat4, NULL};
                   execv("/bin/rm", argv);
+              }
+              else{
+                while((wait(&status4)) > 0);
+                  pid_t child_id6;
+                  int status6;
+
+                  child_id6 = fork();
+                  
+                  if (child_id6 < 0) {
+                      exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+                  }
+
+                  if (child_id6 == 0 && mode == 2) {
+                        char *argv[] = {"killall", "-9", "soal2", NULL};
+                        execv("/usr/bin/killall", argv);
+                  }
               } 
           }
         }
@@ -231,5 +256,6 @@ int main() {
     
     iterator++;
     sleep(1);
+  }
   }
 }
