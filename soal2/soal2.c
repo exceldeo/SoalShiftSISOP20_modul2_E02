@@ -11,6 +11,7 @@
 #include <time.h>
 #include <dirent.h>
 #include <string.h>
+#include <wait.h>
 
 int main() {
   pid_t pid, sid;        // Variabel untuk menyimpan PID
@@ -101,28 +102,48 @@ int main() {
         // }
     }
 
-    if(iterator % 20 == 0 || iterator == 0 ){
+    if(iterator % 21 == 0 || iterator == 1 ){
+        char tempat2[100]="/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/";
+        if(iterator %21 == 0 && iterator != 0){
+          pid_t child_id3;
+          int status3;
+          char tempat5[200],tempat3[200],tempat4[200];
+          strcpy(tempat3,tempat2);
+          strcat(tempat3,namafolder);
+          strcpy(tempat4,tempat3);
+          strcpy(tempat5,tempat4);
+          strcat(tempat3,".zip");
+          strcat(tempat5,"aaaa.txt");
 
-        pid_t child_id3;
-        int status3;
+          child_id3 = fork();
+          if (child_id3 < 0) {
+            char *argv[] = {"touch",tempat5, NULL};
+            execv("/usr/bin/touch", argv);
+            exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+          }
 
-        child_id3 = fork();
-        
-        if (child_id3 < 0) {
-          exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+          if (child_id3 == 0) {
+            char *argv[] = {"zip", "-r",tempat3,tempat4, NULL};
+            execv("/usr/bin/zip", argv);
+          } else {
+            // this is parent
+            while ((wait(&status3)) > 0);
+              pid_t child_id4;
+              int status4;
+
+              child_id4 = fork();
+              
+              if (child_id4 < 0) {
+                  exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+              }
+
+              if (child_id4 == 0) {
+                  char *argv[] = {"rm", "-r",tempat4, NULL};
+                  execv("/bin/rm", argv);
+              } 
+          }
         }
 
-        if (child_id3 == 0) {
-          // this is child
-          
-          char *argv[] = {"mkdir", "-p", "folderku", NULL};
-          execv("/bin/mkdir", argv);
-        } else {
-          // this is parent
-          while ((wait(&status)) > 0);
-          char *argv[] = {"touch", "folderku/fileku.txt", NULL};
-          execv("/usr/bin/touch", argv);
-        }
 
         DIR *folder1;
         struct dirent *entry1;
@@ -146,10 +167,10 @@ int main() {
         }
         strcpy(namafolder,entry1->d_name);
         printf("nama folder %s\n",namafolder);
+        
     }
 
-    if(iterator > 0){
-
+    if(iterator != 0){
 
         time_t rawtime1;
         struct tm * timeinfo1;
@@ -209,6 +230,6 @@ int main() {
     }
     
     iterator++;
-    sleep(5);
+    sleep(1);
   }
 }
