@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 
   while (1) {
       char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/";
-      pid_t child_id;
+      // pid_t child_id;
         time_t rawtime;
         struct tm * timeinfo;
 
@@ -82,54 +82,26 @@ int main(int argc, char *argv[]) {
       // strcat(argv[4],menit);
       // strcat(argv[4],jam);
 
-      child_id = fork();
-      
-      if (child_id < 0 || cekd == 0 || cekm == 0|| cekj == 0) {
-        char aaa[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/error.txt";
-        char *argv2[] = {"touch",aaa, NULL};
-        execv("/usr/bin/touch", argv2);
-        printf("error\n");
-        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-      }
+      if (cekd == 0 || cekm == 0|| cekj == 0) {
+          char aaa[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/error.txt";
+          char *argv2[] = {"touch",aaa, NULL};
+          execv("/usr/bin/touch", argv2);
+          perror("error\n");
+          exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+        }
 
-      // if (child_id == 0) {
-      //   char *argv2[] = {"bash",argv[4], NULL};
-      //   execv("/bin/bash", argv2);
-      // }
-
-      if (child_id == 0 && (strcmp(argv[1], detik) == 0 && strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0)) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0 && strcmp(argv[3], "*") == 0) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && (strcmp(argv[1], "*") == 0 && strcmp(argv[2], "*") == 0) && strcmp(argv[3], jam) == 0) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && (strcmp(argv[1], "*") == 0 && strcmp(argv[3], "*") == 0) && strcmp(argv[2], menit) == 0) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && (strcmp(argv[3], "*") == 0 && strcmp(argv[2], "*") == 0) && strcmp(argv[1], detik) == 0 ) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && (strcmp(argv[2], menit) == 0 && strcmp(argv[3], jam) == 0) && strcmp(argv[1], "*") == 0 ) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && (strcmp(argv[1], detik) == 0 && strcmp(argv[3], jam) == 0) && strcmp(argv[2], "*") == 0) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-      else if (child_id == 0 && (strcmp(argv[2], menit) == 0 && strcmp(argv[1], detik) == 0) && strcmp(argv[3], "*") == 0) {
-        char *argv2[] = {"bash",argv[4], NULL};
-        execv("/bin/bash", argv2);
-      }
-
+      if ((strcmp(argv[1], "*") == 0 || strcmp(argv[1], detik) == 0) && (strcmp(argv[2], "*") == 0 || strcmp(argv[2], menit) == 0) && (strcmp(argv[3], "*") == 0 || strcmp(argv[3], jam) == 0)) {
+			  pid_t child_id = fork();
+        if (child_id < 0 || cekd == 0 || cekm == 0|| cekj == 0) {
+          perror("error\n");
+          exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+        }
+			  if (child_id == 0){
+          char *argv2[] = {"bash",argv[4], NULL};
+          execv("/bin/bash", argv2);
+        } 
+			  
+		  }
     sleep(1);
   }
 }
