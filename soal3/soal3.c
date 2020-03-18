@@ -68,19 +68,19 @@ int main() {
 
                         if (child_id4 == 0) {
                             
-                            DIR *folder;
+                            DIR *folder1;
                             struct dirent *entry;
                             int files = 0;
                             char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg/" , dir2[100], dir3[100]="/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/indomie/";
 
-                            folder = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg");
-                            if(folder == NULL)
+                            folder1 = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal3/jpg");
+                            if(folder1 == NULL)
                             {
                                 perror("Unable to read directory");
                                 return(1);
                             }
                             
-                            while( (entry=readdir(folder)) )
+                            while( (entry=readdir(folder1)) )
                             {
                                 files++;
                                 printf("File %3d: %d name : %s\n",
@@ -112,18 +112,13 @@ int main() {
                                     execv("/bin/mv", argv5);
                                 }
                             }
-                        } else {
-                            // this is parent
+                        } 
                             while ((wait(&status4)) > 0);
 
                               pid_t child_id8;
 
                               child_id8 = fork();
-                              
-                              if (child_id8 < 0) {
-                                exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-                              }
-
+                              if (child_id8 < 0) exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
                               if (child_id8 == 0) {
                                 DIR *folder;
                                 struct dirent *entry;
@@ -144,58 +139,43 @@ int main() {
                                             files,
                                             entry->d_type,entry->d_name
                                             );
-                                    if (!strcmp (entry->d_name, "."))
-                                        continue;
-                                    if (!strcmp (entry->d_name, ".."))    
-                                        continue;
-                                
-                                    // atas
-                                    pid_t child_id6;
-                                    int status6;
+                                    if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
+                                    continue;
+                                        // atas
+                                        pid_t child_id6;
+                                        int status6;
 
-                                    child_id6 = fork();
-                                    
-                                    if (child_id6 < 0) {
-                                        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-                                    }
+                                        child_id6 = fork();
+                                        if (child_id6 < 0) exit(0);
+                                        if (child_id6 == 0) {
+                                        // printf("chillll1 %d\n",iter);
+                                            strcpy(dir2,dir);
+                                            strcat(dir2,entry->d_name);
+                                            strcat(dir2,"/coba1.txt");
+                                            printf("11 %s\n",dir2);
+                                            char *argv6[] = {"touch",dir2, NULL};
+                                            execv("/usr/bin/touch", argv6);  
+                                        }
 
-                                    if (child_id6 == 0) {
-                                    // printf("chillll1 %d\n",iter);
-                                        strcpy(dir2,dir);
-                                        strcat(dir2,entry->d_name);
-                                        strcat(dir2,"/coba1.txt");
-                                        printf("11 %s\n",dir2);
-                                        char *argv6[] = {"touch",dir2, NULL};
-                                        execv("/usr/bin/touch", argv6);  
-                                    }
-
-                                    else {
-                                      while ((wait(&status6)) > 0);
-
-                                      pid_t child_id7;
-
-                                      child_id7 = fork();
-                                      
-                                      if (child_id7 < 0) {
-                                        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-                                      }
-
-                                      if (child_id7 == 0) {
+                                        while((wait(&status6)) > 0);
                                         sleep(3);
-                                        strcpy(dir2,dir);
-                                        strcat(dir2,entry->d_name);
-                                        strcat(dir2,"/coba2.txt");
-                                        printf("22 %s\n",dir2);
-                                        char *argv7[] = {"touch",dir2, NULL};
-                                        execv("/usr/bin/touch", argv7);
-                                      }
-
-                                    }
-                                    // bawah
+                                        child_id6 = fork();
+                                        if (child_id6 < 0) exit(0);
+                                        if (child_id6 == 0) {
+                                            strcpy(dir2,dir);
+                                            strcat(dir2,entry->d_name);
+                                            strcat(dir2,"/coba2.txt");
+                                            printf("22 %s\n",dir2);
+                                            char *argv7[] = {"touch",dir2, NULL};
+                                            execv("/usr/bin/touch", argv7);
+                                        }
+                                        
+                                        // bawah
+                                    
 
                                 }
                               }
-                        }
+                        
 
                 }
 
