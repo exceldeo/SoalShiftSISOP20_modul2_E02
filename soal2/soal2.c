@@ -13,15 +13,33 @@
 #include <string.h>
 #include <wait.h>
 
+void makeKiller1(){
+    FILE * file = fopen("killer","w+");
+    fprintf(file,"#!/bin/bash\n");
+    fprintf(file,"pkill soal2\n");
+    fprintf(file,"rm -- \"$0\"\n");
+    fclose(file);
+    chmod("killer", ~0);
+}
+
+void makeKiller2(){
+    FILE * file = fopen("killer","w+");
+    fprintf(file,"#!/bin/bash\n");
+    fprintf(file,"parent_id=$(ps -aux | grep soal2 | grep Ss | cut -d \" \" -f 6)\n");
+    fprintf(file,"kill -9 $parent_id\n");
+    fprintf(file,"rm -- \"$0\"\n");
+    fclose(file);
+    chmod("killer", ~0);
+}
+
 int main(int argc3, char *argv3[]) {
     if (strcmp(argv3[1],"-a") == 0) {
-      char *argv[] = {"killall", "-9", "soal2", NULL};
-      execv("/usr/bin/killall", argv);
+      makeKiller1();
     }
-    if (strcmp(argv3[1],"-b") == 0) {
-      char *argv[] = {"killall", "-9", "soal2", NULL};
-      execv("/usr/bin/killall", argv);
+    else if (strcmp(argv3[1],"-b") == 0) {
+      makeKiller2();
     }
+    else exit(EXIT_FAILURE);
 
   pid_t pid, sid;        // Variabel untuk menyimpan PID
 
@@ -149,10 +167,10 @@ int iterator = 0;
             strcat(aa,detik);
             strcat(aa,".txt");
 
-            // char *argv[] = {"wget",tempat1, alamat,"-O",dir2, NULL};
-            // execv("/usr/bin/wget", argv);
-            char *argv3[] = {"touch",aa, NULL};
-            execv("/usr/bin/touch", argv3);
+            char *argv[] = {"wget",tempat1, alamat,"-O",dir2, NULL};
+            execv("/usr/bin/wget", argv);
+            // char *argv3[] = {"touch",aa, NULL};
+            // execv("/usr/bin/touch", argv3);
         }
         folderopen = opendir(namafolder);
         if(folderopen == NULL)
