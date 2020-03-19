@@ -134,6 +134,17 @@ int iterator = 0;
     char detik[100],tempatnama[100];
     int t = (timeinfo->tm_sec%1000)+100;
 
+
+    pid_t child_idq;
+    child_idq = fork();
+
+    // int status;
+
+    if (child_idq < 0) 
+      exit(EXIT_FAILURE);
+
+    if (child_idq == 0)
+    { 
         if(iterator%6==0 ){
             pid_t child_id1;
             int status1;
@@ -148,6 +159,9 @@ int iterator = 0;
                 char *argv[] = {"mkdir", "-p", foldera, NULL};
                 execv("/bin/mkdir", argv);
             }
+            else{
+                while ((wait(&status1)) > 0);
+            
         }
         // keluar
 
@@ -181,7 +195,7 @@ int iterator = 0;
 
             child_id = fork();
             if (child_id < 0) exit(EXIT_FAILURE); 
-            if (child_id == 0) {    
+            if (child_id == 0  ) {    
                 
                 sprintf( detik, "%d", t );
                 strcpy(tempatnama,detik);
@@ -260,7 +274,11 @@ int iterator = 0;
             }
         
             iterator++;
-            sleep(5);        
+            sleep(5);     }   
+        }
+        else{
+            sleep(30);
+        }
     }
   
 }
