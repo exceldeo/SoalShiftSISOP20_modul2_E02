@@ -32,7 +32,7 @@ int main(int argc3, char *argv3[]) {
 
     else if (strcmp(argv3[1],"-b") == 0) {
 
-    modeb();
+    // modeb();
     // mode = 0;
     }  
     
@@ -78,13 +78,29 @@ int iterator = 0;
         timeinfo = localtime ( &rawtime );
 
         // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+        char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/" , dir2[100], aa[100],dir3[100];
+        char alamat[100] = "https://picsum.photos/",tempat1[100]="‐-directory-prefix=",tempat11[100];
         char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/",namafolder[100],foldera[100];
         char output[20],save[20];
+        char detik[100],tempatnama[100];
+        int t = (timeinfo->tm_sec%1000)+100;
         sprintf( output, "%d-%d-%d_%d:%d:%d",timeinfo->tm_year+1900,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec );
         strcpy(foldera,temp);
         strcat(foldera,output);
-        char detik[100],tempatnama[100];
-        int t = (timeinfo->tm_sec%1000)+100;
+        sprintf( detik, "%d", t );
+        strcpy(tempatnama,detik);
+        strcat(tempatnama,".jpg");
+
+        // https://loremflickr.com/320/240/cat -O pdkt_kusuma_$num.jpg
+        // https://picsum.photos/200/300.jpg
+
+        
+        strcat(alamat,detik);
+        strcat(alamat,"/");
+        strcat(alamat,detik);
+        strcat(alamat,".jpg");
+        // sprintf( detik, "%d-%d-%d_%d:%d:%d",timeinfo1->tm_year+1900,timeinfo1->tm_mon+1,timeinfo1->tm_mday,timeinfo1->tm_hour,timeinfo1->tm_min,timeinfo1->tm_sec );
+
 
         if(iterator%6==0 ){
             pid_t child_id1;
@@ -99,6 +115,20 @@ int iterator = 0;
             if (child_id1 == 0) {    
                 char *argv[] = {"mkdir", "-p", foldera, NULL};
                 execv("/bin/mkdir", argv);
+            }
+            else{
+                while ((wait(&status1)) > 0);
+                child_id1 = fork();
+                if(child_id1 == 0){
+                    strcpy(tempat11,tempat1);
+                    strcat(tempat11,foldera);
+                    strcpy(dir3,foldera);
+                    strcat(dir3,"/");
+                    strcat(dir3,output);
+                    strcat(dir3,".jpg");
+                    char *argv[] = {"wget",tempat11, alamat,"-O",dir3, NULL};
+                    execv("/usr/bin/wget", argv);
+                }
             }
         }
         // keluar
@@ -135,30 +165,14 @@ int iterator = 0;
             if (child_id < 0) exit(EXIT_FAILURE); 
             if (child_id == 0) {    
                 
-                sprintf( detik, "%d", t );
-                strcpy(tempatnama,detik);
-                strcat(tempatnama,".jpg");
-
-                char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/" , dir2[100], aa[100];
-                // https://loremflickr.com/320/240/cat -O pdkt_kusuma_$num.jpg
-                // https://picsum.photos/200/300.jpg
-
-                
-                char alamat[100] = "https://picsum.photos/",tempat1[100]="‐-directory-prefix=";
-                strcat(alamat,detik);
-                strcat(alamat,"/");
-                strcat(alamat,detik);
-                strcat(alamat,".jpg");
-                // sprintf( detik, "%d-%d-%d_%d:%d:%d",timeinfo1->tm_year+1900,timeinfo1->tm_mon+1,timeinfo1->tm_mday,timeinfo1->tm_hour,timeinfo1->tm_min,timeinfo1->tm_sec );
-
-                strcat(tempat1,dir);
-                strcat(tempat1,entry->d_name);
-                strcat(tempat1,"/");
-                strcpy(dir2,dir);
-                strcat(dir2,entry->d_name);
-                strcat(dir2,"/");
-                strcat(dir2,output);
-                strcat(dir2,".jpg");
+            strcat(tempat1,dir);
+            strcat(tempat1,entry->d_name);
+            strcat(tempat1,"/");
+            strcpy(dir2,dir);
+            strcat(dir2,entry->d_name);
+            strcat(dir2,"/");
+            strcat(dir2,output);
+            strcat(dir2,".jpg");
 
                 strcpy(aa,dir);
                 strcat(aa,entry->d_name);
