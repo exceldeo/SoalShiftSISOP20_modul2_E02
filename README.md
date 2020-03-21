@@ -1,9 +1,9 @@
 # SoalShiftSISOP20_modul2_E02
 
 ### Outline
-1. [Soal #1](#Soal-#1) (Source Code : [soal1.c](https://github.com/exceldeo/SoalShiftSISOP20_modul2_E02/blob/master/soal1/soal1.c))
-2. [Soal #2](#Soal-#2) (Source Code : [soal2.c](https://github.com/exceldeo/SoalShiftSISOP20_modul2_E02/blob/master/soal2/soal2.c))
-3. [Soal #3](#Soal-#3) (Source Code : [soal3.c](https://github.com/exceldeo/SoalShiftSISOP20_modul2_E02/blob/master/soal3/soal3.c))
+1. [Soal #1](#soal-#1) (Source Code : [soal1.c](https://github.com/exceldeo/SoalShiftSISOP20_modul2_E02/blob/master/soal1/soal1.c))
+2. [Soal #2](#soal-#2) (Source Code : [soal2.c](https://github.com/exceldeo/SoalShiftSISOP20_modul2_E02/blob/master/soal2/soal2.c))
+3. [Soal #3](#soal-#3) (Source Code : [soal3.c](https://github.com/exceldeo/SoalShiftSISOP20_modul2_E02/blob/master/soal3/soal3.c))
 
 ## Soal #1
 Buatlah program C yang menyerupai crontab untuk menjalankan script bash dengan ketentuan sebagai berikut:
