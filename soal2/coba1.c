@@ -16,7 +16,7 @@
 void makeKiller1(){
     FILE * file = fopen("killer","w+");
     fprintf(file,"#!/bin/bash\n");
-    fprintf(file,"pkill soal2\n");
+    fprintf(file,"kill -9 $(pidof soal2)\n");
     fprintf(file,"rm -- \"$0\"\n");
     fclose(file);
     chmod("killer", ~0);
@@ -45,6 +45,7 @@ void generateKiller(int mode) {
 	while(wait(&status) > 0);
 }
 
+
 int main(int argc3, char *argv3[]) {
     int mode;
     if (strcmp(argv3[1],"-a") == 0) {
@@ -56,32 +57,14 @@ int main(int argc3, char *argv3[]) {
     else if (strcmp(argv3[1],"-b") == 0) {
 
     makeKiller2();
+
     // mode = 0;
     }  
     
     else exit(EXIT_FAILURE);
 
 // coba
-    // if(argc3 != 2 || (strcmp(argv3[1],"-a") == 0 && strcmp(argv3[1],"-b") == 0)) 
-    // {
-    //     printf("Mode hanya ada -a atau -b\n");
-    //     exit(0);
-    // }
-    
-    // int stat;
-    // FILE* kill;
-    // kill = fopen("kill.sh", "w");
-    // fprintf(kill, "#!/bin/bash\nkill %d\nkill %d\necho \'Killed program.\'\nrm \"$0\"", getpid() + 2, getpid() + 3);
-    // fclose(kill);
-    // pid_t cid;
-    // cid = fork();
-    // if(cid < 0) exit(0);
-    // if(cid = 0)
-    // {
-    //     char *ag[] = {"chmod", "u+x", "kill.sh", NULL};
-    //     execv("/bin/chmod", ag);
-    // }
-    // while(wait(&stat) > 0);
+
 // coba
 
 
@@ -119,33 +102,25 @@ int main(int argc3, char *argv3[]) {
 // generateKiller(mode);
 int iterator = 0;
     while (1) {
-    time_t rawtime;
-    struct tm * timeinfo;
 
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
+        pid_t child_idd;
+        child_idd = fork();
+        if(child_idd<0){
+            exit(EXIT_FAILURE);
+        }
+        if(child_idd == 0){
+            time_t rawtime;
+            struct tm * timeinfo;
 
-    // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-    char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/",namafolder[100],foldera[100];
-    char output[20],save[20];
-    sprintf( output, "%d-%d-%d_%d:%d:%d",timeinfo->tm_year+1900,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec );
-    strcpy(foldera,temp);
-    strcat(foldera,output);
-    char detik[100],tempatnama[100];
-    int t = (timeinfo->tm_sec%1000)+100;
+            time ( &rawtime );
+            timeinfo = localtime ( &rawtime );
 
-
-    pid_t child_idq;
-    child_idq = fork();
-
-    // int status;
-
-    if (child_idq < 0) 
-      exit(EXIT_FAILURE);
-
-    if (child_idq == 0)
-    { 
-        if(iterator%6==0 ){
+            // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+            char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/",namafolder[100],foldera[100];
+            char output[20],save[20];
+            sprintf( output, "%d-%d-%d_%d:%d:%d",timeinfo->tm_year+1900,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec );
+            strcpy(foldera,temp);
+            strcat(foldera,output);
             pid_t child_id1;
             int status1;
 
@@ -159,126 +134,138 @@ int iterator = 0;
                 char *argv[] = {"mkdir", "-p", foldera, NULL};
                 execv("/bin/mkdir", argv);
             }
-            else{
-                while ((wait(&status1)) > 0);
-            
-        }
-        // keluar
+        }else{
+            time_t rawtime;
+            struct tm * timeinfo;
 
-        printf("aaa\n");
-        // masuk
-        pid_t child_id;
-        
-        DIR *folder1, *folderopen;
-        struct dirent *entry;
-        struct dirent *masuk;
-        int files1 = 0;
-        folder1 = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/");
-        if(folder1 == NULL)
-        {
-            printf("vv\n");
-            perror("Unable to read directory");
-            return(1);
-        }
-        
-        while( (entry=readdir(folder1)) )
-        {
-            printf("aaaaaadddd\n");
-            files1++;
-            int hitung = 0;
-            if ((strcmp(entry->d_name, ".")) == 0 || (strcmp (entry->d_name, "..")) == 0 || entry->d_type == 8)
-                continue;
-            strcpy(namafolder,temp);
-            strcat(namafolder,entry->d_name);
-            pid_t child_id;
-            int status;
+            time ( &rawtime );
+            timeinfo = localtime ( &rawtime );
 
-            child_id = fork();
-            if (child_id < 0) exit(EXIT_FAILURE); 
-            if (child_id == 0  ) {    
+            // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+            char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/",namafolder[100],foldera[100];
+            char output[20],save[20];
+            sprintf( output, "%d-%d-%d_%d:%d:%d",timeinfo->tm_year+1900,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec );
+            strcpy(foldera,temp);
+            strcat(foldera,output);
+            char detik[100],tempatnama[100];
+            int t = (timeinfo->tm_sec%1000)+100;
+
+                // if(iterator%6==0 && child_idd == 0){
+                // }
+                // keluar
+
+                printf("aaa\n");
+                // masuk
+                pid_t child_id;
                 
-                sprintf( detik, "%d", t );
-                strcpy(tempatnama,detik);
-                strcat(tempatnama,".jpg");
-
-                char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/" , dir2[100], aa[100];
-                // https://loremflickr.com/320/240/cat -O pdkt_kusuma_$num.jpg
-                // https://picsum.photos/200/300.jpg
-
+                DIR *folder1, *folderopen;
+                struct dirent *entry;
+                struct dirent *masuk;
+                int files1 = 0;
+                folder1 = opendir("/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/");
+                if(folder1 == NULL)
+                {
+                    printf("vv\n");
+                    perror("Unable to read directory");
+                    return(1);
+                }
                 
-                char alamat[100] = "https://picsum.photos/",tempat1[100]="‐-directory-prefix=";
-                strcat(alamat,detik);
-                strcat(alamat,"/");
-                strcat(alamat,detik);
-                strcat(alamat,".jpg");
-                // sprintf( detik, "%d-%d-%d_%d:%d:%d",timeinfo1->tm_year+1900,timeinfo1->tm_mon+1,timeinfo1->tm_mday,timeinfo1->tm_hour,timeinfo1->tm_min,timeinfo1->tm_sec );
+                while( (entry=readdir(folder1)) )
+                {
+                    printf("aaaaaadddd\n");
+                    files1++;
+                    int hitung = 0;
+                    if ((strcmp(entry->d_name, ".")) == 0 || (strcmp (entry->d_name, "..")) == 0 || entry->d_type == 8)
+                        continue;
+                    strcpy(namafolder,temp);
+                    strcat(namafolder,entry->d_name);
+                    pid_t child_id;
+                    int status;
 
-                strcat(tempat1,dir);
-                strcat(tempat1,entry->d_name);
-                strcat(tempat1,"/");
-                strcpy(dir2,dir);
-                strcat(dir2,entry->d_name);
-                strcat(dir2,"/");
-                strcat(dir2,output);
-                strcat(dir2,".jpg");
+                    child_id = fork();
+                    if (child_id < 0) exit(EXIT_FAILURE); 
+                    if (child_id == 0) {    
+                        
+                        sprintf( detik, "%d", t );
+                        strcpy(tempatnama,detik);
+                        strcat(tempatnama,".jpg");
 
-                strcpy(aa,dir);
-                strcat(aa,entry->d_name);
-                strcat(aa,"/");
-                strcat(aa,detik);
-                strcat(aa,".txt");
+                        char dir[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/" , dir2[100], aa[100];
+                        // https://loremflickr.com/320/240/cat -O pdkt_kusuma_$num.jpg
+                        // https://picsum.photos/200/300.jpg
 
-                char *argv[] = {"wget",tempat1, alamat,"-O",dir2, NULL};
-                execv("/usr/bin/wget", argv);
-                // char *argv3[] = {"touch",aa, NULL};
-                // execv("/usr/bin/touch", argv3);
-            }
-            folderopen = opendir(namafolder);
-            if(folderopen == NULL)
-            {
-                perror("Unable to read directory");
-                return(1);
-            }
-            
-            while( (masuk=readdir(folderopen)) )
-            {
-                hitung++;
-            }
-            
+                        
+                        char alamat[100] = "https://picsum.photos/",tempat1[100]="‐-directory-prefix=";
+                        strcat(alamat,detik);
+                        strcat(alamat,"/");
+                        strcat(alamat,detik);
+                        strcat(alamat,".jpg");
+                        // sprintf( detik, "%d-%d-%d_%d:%d:%d",timeinfo1->tm_year+1900,timeinfo1->tm_mon+1,timeinfo1->tm_mday,timeinfo1->tm_hour,timeinfo1->tm_min,timeinfo1->tm_sec );
 
-            if(hitung == 22){
-                pid_t child_id1 = fork();
-                int status1;
-                char tempat3[100],tempat4[100];
-                strcpy(tempat3,namafolder);
-                strcpy(tempat4,namafolder);
-                strcat(tempat3,".zip");
-                if (child_id1 < 0) exit(EXIT_FAILURE); 
-                if (child_id1 == 0) {    
-                    char *argv[] = {"zip", "-r",tempat3,tempat4, NULL};
-                    execv("/usr/bin/zip", argv);
-                }
-                while ((wait(&status1)) > 0);
-                child_id1 = fork();
-                if (child_id1 < 0) exit(EXIT_FAILURE); 
-                if (child_id1 == 0) {    
-                    char *argv[] = {"rm", "-r",namafolder, NULL};
-                    execv("/bin/rm", argv);
-                }
-            }
-            printf("File %3d: %d name : %s jumlah %d\n",
-                    files1,
-                    entry->d_type,entry->d_name,hitung-2
-                    );
+                        strcat(tempat1,dir);
+                        strcat(tempat1,entry->d_name);
+                        strcat(tempat1,"/");
+                        strcpy(dir2,dir);
+                        strcat(dir2,entry->d_name);
+                        strcat(dir2,"/");
+                        strcat(dir2,output);
+                        strcat(dir2,".jpg");
 
-            }
-        
-            iterator++;
-            sleep(5);     }   
+                        strcpy(aa,dir);
+                        strcat(aa,entry->d_name);
+                        strcat(aa,"/");
+                        strcat(aa,detik);
+                        strcat(aa,".txt");
+
+                        char *argv[] = {"wget",tempat1, alamat,"-O",dir2, NULL};
+                        execv("/usr/bin/wget", argv);
+                        // char *argv3[] = {"touch",aa, NULL};
+                        // execv("/usr/bin/touch", argv3);
+                    }
+                    folderopen = opendir(namafolder);
+                    if(folderopen == NULL)
+                    {
+                        perror("Unable to read directory");
+                        return(1);
+                    }
+                    
+                    while( (masuk=readdir(folderopen)) )
+                    {
+                        hitung++;
+                    }
+                    
+
+                    if(hitung == 22){
+                        pid_t child_id1 = fork();
+                        int status1;
+                        char tempat3[100],tempat4[100];
+                        strcpy(tempat3,namafolder);
+                        strcpy(tempat4,namafolder);
+                        strcat(tempat3,".zip");
+                        if (child_id1 < 0) exit(EXIT_FAILURE); 
+                        if (child_id1 == 0) {    
+                            char *argv[] = {"zip", "-r",tempat3,tempat4, NULL};
+                            execv("/usr/bin/zip", argv);
+                        }
+                        while ((wait(&status1)) > 0);
+                        child_id1 = fork();
+                        if (child_id1 < 0) exit(EXIT_FAILURE); 
+                        if (child_id1 == 0) {    
+                            char *argv[] = {"rm", "-r",namafolder, NULL};
+                            execv("/bin/rm", argv);
+                        }
+                    }
+                    printf("File %3d: %d name : %s jumlah %d\n",
+                            files1,
+                            entry->d_type,entry->d_name,hitung-2
+                            );
+
+                    }
+                
+                    iterator++;
+                    sleep(5); 
         }
-        else{
-            sleep(30);
-        }
+        sleep(30);
     }
   
 }

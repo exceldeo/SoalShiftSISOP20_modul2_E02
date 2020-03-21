@@ -13,77 +13,30 @@
 #include <string.h>
 #include <wait.h>
 
-void makeKiller1(){
+void modea(){
     FILE * file = fopen("killer","w+");
     fprintf(file,"#!/bin/bash\n");
-    fprintf(file,"pkill soal2\n");
+    fprintf(file,"kill -9 $(pidof soal2)\n");
     fprintf(file,"rm -- \"$0\"\n");
     fclose(file);
     chmod("killer", ~0);
-}
-
-void makeKiller2(){
-    FILE * file = fopen("killer","w+");
-    fprintf(file,"#!/bin/bash\n");
-    fprintf(file,"parent_id=$(ps -aux | grep soal2 | grep Ss | cut -d \" \" -f 6)\n");
-    fprintf(file,"kill -9 $parent_id\n");
-    fprintf(file,"rm -- \"$0\"\n");
-    fclose(file);
-    chmod("killer", ~0);
-}
-
-void generateKiller(int mode) {
-	FILE* killer;
-	killer = fopen("killer.sh", "w");
-	fprintf(killer, "#!/bin/bash\nkill %d\necho \'Killed program.\'\nrm \"$0\"", getpid());
-	fclose(killer);
-	pid_t child = fork();
-	if (child == 0) {
-		execl("/bin/chmod", "chmod", "u+x", "killer.sh", NULL);
-	}
-	int status;
-	while(wait(&status) > 0);
 }
 
 int main(int argc3, char *argv3[]) {
     int mode;
     if (strcmp(argv3[1],"-a") == 0) {
 
-    makeKiller1();
+    modea();
     // mode = 1;
     } 
 
     else if (strcmp(argv3[1],"-b") == 0) {
 
-    makeKiller2();
+    modeb();
     // mode = 0;
     }  
     
     else exit(EXIT_FAILURE);
-
-// coba
-    // if(argc3 != 2 || (strcmp(argv3[1],"-a") == 0 && strcmp(argv3[1],"-b") == 0)) 
-    // {
-    //     printf("Mode hanya ada -a atau -b\n");
-    //     exit(0);
-    // }
-    
-    // int stat;
-    // FILE* kill;
-    // kill = fopen("kill.sh", "w");
-    // fprintf(kill, "#!/bin/bash\nkill %d\nkill %d\necho \'Killed program.\'\nrm \"$0\"", getpid() + 2, getpid() + 3);
-    // fclose(kill);
-    // pid_t cid;
-    // cid = fork();
-    // if(cid < 0) exit(0);
-    // if(cid = 0)
-    // {
-    //     char *ag[] = {"chmod", "u+x", "kill.sh", NULL};
-    //     execv("/bin/chmod", ag);
-    // }
-    // while(wait(&stat) > 0);
-// coba
-
 
   pid_t pid, sid;        // Variabel untuk menyimpan PID
 
@@ -116,23 +69,22 @@ int main(int argc3, char *argv3[]) {
   close(STDOUT_FILENO);
   close(STDERR_FILENO);
 
-// generateKiller(mode);
 int iterator = 0;
     while (1) {
-    time_t rawtime;
-    struct tm * timeinfo;
+        time_t rawtime;
+        struct tm * timeinfo;
 
-    time ( &rawtime );
-    timeinfo = localtime ( &rawtime );
+        time ( &rawtime );
+        timeinfo = localtime ( &rawtime );
 
-    // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-    char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/",namafolder[100],foldera[100];
-    char output[20],save[20];
-    sprintf( output, "%d-%d-%d_%d:%d:%d",timeinfo->tm_year+1900,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec );
-    strcpy(foldera,temp);
-    strcat(foldera,output);
-    char detik[100],tempatnama[100];
-    int t = (timeinfo->tm_sec%1000)+100;
+        // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+        char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal2/",namafolder[100],foldera[100];
+        char output[20],save[20];
+        sprintf( output, "%d-%d-%d_%d:%d:%d",timeinfo->tm_year+1900,timeinfo->tm_mon+1,timeinfo->tm_mday,timeinfo->tm_hour,timeinfo->tm_min,timeinfo->tm_sec );
+        strcpy(foldera,temp);
+        strcat(foldera,output);
+        char detik[100],tempatnama[100];
+        int t = (timeinfo->tm_sec%1000)+100;
 
         if(iterator%6==0 ){
             pid_t child_id1;
@@ -257,10 +209,9 @@ int iterator = 0;
                     entry->d_type,entry->d_name,hitung-2
                     );
 
-            }
-        
-            iterator++;
-            sleep(5);        
+        }
+        iterator++;
+        sleep(5);        
     }
   
 }

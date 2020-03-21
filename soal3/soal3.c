@@ -142,33 +142,33 @@ int main() {
                                     if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
                                     continue;
                                         // atas
-                                        pid_t child_id6;
-                                        int status6;
+                                    pid_t child_id6;
+                                    int status6;
 
-                                        child_id6 = fork();
-                                        if (child_id6 < 0) exit(0);
-                                        if (child_id6 == 0) {
-                                        // printf("chillll1 %d\n",iter);
-                                            strcpy(dir2,dir);
-                                            strcat(dir2,entry->d_name);
-                                            strcat(dir2,"/coba1.txt");
-                                            printf("11 %s\n",dir2);
-                                            char *argv6[] = {"touch",dir2, NULL};
-                                            execv("/usr/bin/touch", argv6);  
-                                        }
+                                    child_id6 = fork();
+                                    if (child_id6 < 0) exit(0);
+                                    if (child_id6 == 0) {
+                                    // printf("chillll1 %d\n",iter);
+                                        strcpy(dir2,dir);
+                                        strcat(dir2,entry->d_name);
+                                        strcat(dir2,"/coba1.txt");
+                                        printf("11 %s\n",dir2);
+                                        char *argv6[] = {"touch",dir2, NULL};
+                                        execv("/usr/bin/touch", argv6);  
+                                    }
 
-                                        while((wait(&status6)) > 0);
-                                        sleep(3);
-                                        child_id6 = fork();
-                                        if (child_id6 < 0) exit(0);
-                                        if (child_id6 == 0) {
-                                            strcpy(dir2,dir);
-                                            strcat(dir2,entry->d_name);
-                                            strcat(dir2,"/coba2.txt");
-                                            printf("22 %s\n",dir2);
-                                            char *argv7[] = {"touch",dir2, NULL};
-                                            execv("/usr/bin/touch", argv7);
-                                        }
+                                    while((wait(&status6)) > 0);
+                                    sleep(3);
+                                    pid_t child_idd = fork();
+                                    if (child_idd < 0) exit(0);
+                                    if (child_idd == 0) {
+                                        strcpy(dir2,dir);
+                                        strcat(dir2,entry->d_name);
+                                        strcat(dir2,"/coba2.txt");
+                                        printf("22 %s\n",dir2);
+                                        char *argv7[] = {"touch",dir2, NULL};
+                                        execv("/usr/bin/touch", argv7);
+                                    }
                                         
                                         // bawah
                                     
