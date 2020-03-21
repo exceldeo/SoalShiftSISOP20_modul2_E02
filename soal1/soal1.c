@@ -11,97 +11,88 @@
 #include <time.h>
 
 int main(int argc, char *argv[]) {
-  int cekd = 0 , cekm = 0 , cekj = 0;
-  char cekdetik[5]="*";
-  for(int i = 60 ; i >= 0 ; --i ){
-    if(strcmp(argv[1], cekdetik) == 0 && cekd == 0){
-      cekd = 1;
-      // break;
+
+    int cekd = 0 , cekm = 0 , cekj = 0;
+    char cekdetik[5]="*";
+
+    for(int i = 59 ; i >= 0 ; --i ){
+
+        if(strcmp(argv[1], cekdetik) == 0 && cekd == 0)
+            cekd = 1;
+
+        if(strcmp(argv[2], cekdetik) == 0 && cekm == 0)
+            cekm = 1;
+
+        if(strcmp(argv[3], cekdetik) == 0 && (i < 24 || i == 59) && cekj == 0)
+            cekj = 1;
+
+        sprintf( cekdetik, "%d", i );
     }
 
-    if(strcmp(argv[2], cekdetik) == 0 && cekm == 0){
-      cekm = 1;
-      // break;
+    pid_t pid, sid;     // Variabel untuk menyimpan PID
+    pid = fork();       // Menyimpan PID dari Child Process
+
+    // Keluar saat fork gagal (nilai variabel pid < 0)
+    if (pid < 0) {
+        exit(EXIT_FAILURE);
     }
 
-    if(strcmp(argv[3], cekdetik) == 0 && (i < 24 || i == 60) && cekj == 0){
-      cekj = 1;
-      // break;
+    // Keluar saat fork berhasil (nilai variabel pid adalah PID dari child process)
+    if (pid > 0) {
+        exit(EXIT_SUCCESS);
     }
-    sprintf( cekdetik, "%d", i );
-  }
-  pid_t pid, sid;        // Variabel untuk menyimpan PID
 
-  pid = fork();     // Menyimpan PID dari Child Process
+    umask(0);
 
-  /* Keluar saat fork gagal
-  * (nilai variabel pid < 0) */
-  if (pid < 0) {
-    exit(EXIT_FAILURE);
-  }
+    sid = setsid();
+    if (sid < 0) {
+        exit(EXIT_FAILURE);
+    }
 
-  /* Keluar saat fork berhasil
-  * (nilai variabel pid adalah PID dari child process) */
-  if (pid > 0) {
-    exit(EXIT_SUCCESS);
-  }
+    if ((chdir("/")) < 0) {
+        exit(EXIT_FAILURE);
+    }
 
-  umask(0);
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
 
-  sid = setsid();
-  if (sid < 0) {
-    exit(EXIT_FAILURE);
-  }
+    while (1) {
 
-  if ((chdir("/")) < 0) {
-    exit(EXIT_FAILURE);
-  }
-
-  close(STDIN_FILENO);
-  close(STDOUT_FILENO);
-  close(STDERR_FILENO);
-
-  while (1) {
-      char temp[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/";
-      // pid_t child_id;
         time_t rawtime;
         struct tm * timeinfo;
 
-      time ( &rawtime );
-      timeinfo = localtime ( &rawtime );
+        time ( &rawtime );
+        timeinfo = localtime ( &rawtime );
 
+        char detik[10],menit[10],jam[10];
+        sprintf( detik, "%d", timeinfo->tm_sec );
+        sprintf( menit, "%d", timeinfo->tm_min );
+        sprintf( jam, "%d", timeinfo->tm_hour );
 
-      // sprintf(output, "[%d %d %d %d:%d:%d]",timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-      char detik[10],menit[10],jam[10];
-      sprintf( detik, "%d", timeinfo->tm_sec );
-      sprintf( menit, "%d", timeinfo->tm_min );
-      sprintf( jam, "%d", timeinfo->tm_hour );
-      // detik = (char*)&timeinfo->tm_sec;
-      // strcpy(argv[4],temp);
-      // strcat(argv[4],detik);
-      // strcat(argv[4],menit);
-      // strcat(argv[4],jam);
-
-      if (cekd == 0 || cekm == 0|| cekj == 0) {
-          char aaa[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/error.txt";
-          char *argv2[] = {"touch",aaa, NULL};
-          execv("/usr/bin/touch", argv2);
-          perror("error\n");
-          exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+        if (cekd == 0 || cekm == 0|| cekj == 0) {
+            char path[100] = "/home/excel/Desktop/SoalShiftSISOP20_modul2_E02/soal1/error.txt";
+            char *argv2[] = {"touch", path, NULL};
+            execv("/usr/bin/touch", argv2);
+            perror("error\n");
+            exit(EXIT_FAILURE);
         }
 
-      if ((strcmp(argv[1], "*") == 0 || strcmp(argv[1], detik) == 0) && (strcmp(argv[2], "*") == 0 || strcmp(argv[2], menit) == 0) && (strcmp(argv[3], "*") == 0 || strcmp(argv[3], jam) == 0)) {
-			  pid_t child_id = fork();
-        if (child_id < 0 || cekd == 0 || cekm == 0|| cekj == 0) {
-          perror("error\n");
-          exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+        if ((strcmp(argv[1], "*") == 0 || strcmp(argv[1], detik) == 0) && (strcmp(argv[2], "*") == 0 || strcmp(argv[2], menit) == 0) &&
+            (strcmp(argv[3], "*") == 0 || strcmp(argv[3], jam) == 0)) {
+            
+            pid_t child_id = fork();
+            
+            if (child_id < 0) {
+                perror("error\n");
+                exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+            }
+            
+            if (child_id == 0){
+                char *argv2[] = {"bash",argv[4], NULL};
+                execv("/bin/bash", argv2);
+            }    
         }
-			  if (child_id == 0){
-          char *argv2[] = {"bash",argv[4], NULL};
-          execv("/bin/bash", argv2);
-        } 
-			  
-		  }
-    sleep(1);
-  }
+        sleep(1);
+    }
 }
